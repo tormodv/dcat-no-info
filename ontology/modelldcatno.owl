@@ -11,8 +11,9 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xkos: <https://rdf-vocabulary.ddialliance.org/xkos/> .
+@prefix archi: <https://pubs.opengroup.org/architecture/archimate3#> .
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
-@prefix ex-code: <http://example.com/code#> .
+@prefix ex-archi: <http://example.com/archi#> .
 @prefix modelldcatno: <https://data.norge.no/vocabulary/modelldcatno#> .
 @base <https://data.norge.no/vocabulary/modelldcatno> .
 
@@ -1305,20 +1306,124 @@ modelldcatno:Specialization rdf:type owl:Class ;
 #    Individuals
 #################################################################
 
-###  http://example.com/code#kode
-ex-code:kode rdf:type owl:NamedIndividual ,
-                      modelldcatno:CodeElement ;
-             skos:inScheme ex-code:kodeliste ;
-             skos:topConceptOf ex-code:kodeliste ;
-             skos:notation "3405"^^xsd:string ;
-             skos:note "Lillehammer er en by og kommune i Gudbrandsdalen i Innlandet, ved nordenden av Mjøsa."@nb ;
-             skos:prefLabel "Lillehammer"@nb .
+###  http://example.com/archi#Dreiebok
+ex-archi:Dreiebok rdf:type owl:NamedIndividual ,
+                           modelldcatno:ObjectType ;
+                  modelldcatno:hasProperty ex-archi:isADO ,
+                                           ex-archi:relShotlist .
 
 
-###  http://example.com/code#kodeliste
-ex-code:kodeliste rdf:type owl:NamedIndividual ,
-                           modelldcatno:CodeList ;
-                  dct:title "Kommunenummerlisten"@nb .
+###  http://example.com/archi#Opptak
+ex-archi:Opptak rdf:type owl:NamedIndividual ,
+                         modelldcatno:ObjectType ;
+                modelldcatno:hasProperty ex-archi:isABP ,
+                                         ex-archi:reads ,
+                                         ex-archi:writes .
+
+
+###  http://example.com/archi#ProResFile
+ex-archi:ProResFile rdf:type owl:NamedIndividual ,
+                             modelldcatno:ObjectType ;
+                    modelldcatno:hasProperty ex-archi:isADO ,
+                                             ex-archi:relShot .
+
+
+###  http://example.com/archi#Shot
+ex-archi:Shot rdf:type owl:NamedIndividual ,
+                       modelldcatno:ObjectType ;
+              modelldcatno:hasProperty ex-archi:isABO .
+
+
+###  http://example.com/archi#Shotlist
+ex-archi:Shotlist rdf:type owl:NamedIndividual ,
+                           modelldcatno:ObjectType ;
+                  modelldcatno:hasProperty ex-archi:isABO .
+
+
+###  http://example.com/archi#filmarbeid
+ex-archi:filmarbeid rdf:type owl:NamedIndividual ,
+                             modelldcatno:InformationModel ;
+                    modelldcatno:containsModelElement ex-archi:Dreiebok ,
+                                                      ex-archi:Opptak ,
+                                                      ex-archi:ProResFile ,
+                                                      ex-archi:Shot ,
+                                                      ex-archi:Shotlist .
+
+
+###  http://example.com/archi#isABO
+ex-archi:isABO rdf:type owl:NamedIndividual ,
+                        modelldcatno:Specialization ;
+               modelldcatno:hasGeneralConcept archi:BusinessObject ;
+               dct:title "er et foretningsobjekt"@nb .
+
+
+###  http://example.com/archi#isABP
+ex-archi:isABP rdf:type owl:NamedIndividual ,
+                        modelldcatno:Specialization ;
+               modelldcatno:hasGeneralConcept archi:BusinessProcess ;
+               dct:title "er en foretningsprosess"@nb .
+
+
+###  http://example.com/archi#isADO
+ex-archi:isADO rdf:type owl:NamedIndividual ,
+                        modelldcatno:Specialization ;
+               modelldcatno:hasGeneralConcept archi:DataObject ;
+               dct:title "er et dataobjekt"@nb .
+
+
+###  http://example.com/archi#reads
+ex-archi:reads rdf:type owl:NamedIndividual ,
+                        modelldcatno:Association ,
+                        modelldcatno:Specialization ;
+               modelldcatno:hasGeneralConcept archi:DataRelation ;
+               modelldcatno:references ex-archi:Shotlist ;
+               dct:title "leser"@nb .
+
+
+###  http://example.com/archi#relShot
+ex-archi:relShot rdf:type owl:NamedIndividual ,
+                          modelldcatno:Realization ;
+                 modelldcatno:hasSupplier ex-archi:Shot ;
+                 dct:title "realiserer"@nb .
+
+
+###  http://example.com/archi#relShotlist
+ex-archi:relShotlist rdf:type owl:NamedIndividual ,
+                              modelldcatno:Realization ;
+                     modelldcatno:hasSupplier ex-archi:Shotlist ;
+                     dct:title "realiserer"@nb .
+
+
+###  http://example.com/archi#writes
+ex-archi:writes rdf:type owl:NamedIndividual ,
+                         modelldcatno:Association ,
+                         modelldcatno:Specialization ;
+                modelldcatno:hasGeneralConcept archi:DataRelation ;
+                modelldcatno:references ex-archi:Shot ;
+                dct:title "skriver"@nb .
+
+
+###  https://pubs.opengroup.org/architecture/archimate3#BusinessObject
+archi:BusinessObject rdf:type owl:NamedIndividual ,
+                              modelldcatno:ObjectType ;
+                     rdfs:comment "Denne kunne også kommet inn som en klasse, dvs rdf:type owl:Class"@nb .
+
+
+###  https://pubs.opengroup.org/architecture/archimate3#BusinessProcess
+archi:BusinessProcess rdf:type owl:NamedIndividual ,
+                               modelldcatno:ObjectType ;
+                      rdfs:comment "Denne kunne også kommet inn som en klasse, dvs rdf:type owl:Class"@nb .
+
+
+###  https://pubs.opengroup.org/architecture/archimate3#DataObject
+archi:DataObject rdf:type owl:NamedIndividual ,
+                          modelldcatno:ObjectType ;
+                 rdfs:comment "Denne kunne også kommet inn som en klasse, dvs rdf:type owl:Class"@nb .
+
+
+###  https://pubs.opengroup.org/architecture/archimate3#DataRelation
+archi:DataRelation rdf:type owl:NamedIndividual ,
+                            modelldcatno:ObjectType .
 
 
 #################################################################
@@ -1333,7 +1438,6 @@ ex-code:kodeliste rdf:type owl:NamedIndividual ,
                 modelldcatno:Composition
                 modelldcatno:Realization
                 modelldcatno:Role
-                modelldcatno:Specialization
               )
 ] .
 
