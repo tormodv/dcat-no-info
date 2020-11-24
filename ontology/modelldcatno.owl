@@ -12,7 +12,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xkos: <https://rdf-vocabulary.ddialliance.org/xkos/> .
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
-@prefix ex-code: <http://example.com/code#> .
+@prefix ex-kart: <http://example.com/kart#> .
 @prefix modelldcatno: <https://data.norge.no/vocabulary/modelldcatno#> .
 @base <https://data.norge.no/vocabulary/modelldcatno> .
 
@@ -1317,20 +1317,61 @@ modelldcatno:Specialization rdf:type owl:Class ;
 #    Individuals
 #################################################################
 
-###  http://example.com/code#kode
-ex-code:kode rdf:type owl:NamedIndividual ,
-                      modelldcatno:CodeElement ;
-             skos:inScheme ex-code:kodeliste ;
-             skos:topConceptOf ex-code:kodeliste ;
-             skos:notation "3405"^^xsd:string ;
-             skos:note "Lillehammer er en by og kommune i Gudbrandsdalen i Innlandet, ved nordenden av Mjøsa."@nb ;
-             skos:prefLabel "Lillehammer"@nb .
+###  http://example.com/kart#ElectricityCable
+ex-kart:ElectricityCable rdf:type owl:NamedIndividual ,
+                                  modelldcatno:ObjectType ;
+                         modelldcatno:hasProperty ex-kart:nominalVoltage ,
+                                                  ex-kart:operationVoltage .
 
 
-###  http://example.com/code#kodeliste
-ex-code:kodeliste rdf:type owl:NamedIndividual ,
-                           modelldcatno:CodeList ;
-                  dct:title "Kommunenummerlisten"@nb .
+###  http://example.com/kart#Measure
+ex-kart:Measure rdf:type owl:NamedIndividual ,
+                         modelldcatno:DataType .
+
+
+###  http://example.com/kart#Real
+ex-kart:Real rdf:type owl:NamedIndividual ,
+                      modelldcatno:DataType .
+
+
+###  http://example.com/kart#Strømkabel
+ex-kart:Strømkabel rdf:type owl:NamedIndividual ,
+                            modelldcatno:ObjectType ;
+                   modelldcatno:hasProperty ex-kart:nominellSpenning ,
+                                            ex-kart:operasjonellSpenning ,
+                                            ex-kart:stromElectr .
+
+
+###  http://example.com/kart#nominalVoltage
+ex-kart:nominalVoltage rdf:type owl:NamedIndividual ,
+                                modelldcatno:Attribute .
+
+
+###  http://example.com/kart#nominellSpenning
+ex-kart:nominellSpenning rdf:type owl:NamedIndividual ,
+                                  modelldcatno:Attribute ,
+                                  modelldcatno:Realization ;
+                         modelldcatno:hasDataType ex-kart:Real ;
+                         modelldcatno:hasSupplier ex-kart:operationVoltage .
+
+
+###  http://example.com/kart#operasjonellSpenning
+ex-kart:operasjonellSpenning rdf:type owl:NamedIndividual ,
+                                      modelldcatno:Attribute ,
+                                      modelldcatno:Realization ;
+                             modelldcatno:hasDataType ex-kart:Measure ;
+                             modelldcatno:hasSupplier ex-kart:operationVoltage .
+
+
+###  http://example.com/kart#operationVoltage
+ex-kart:operationVoltage rdf:type owl:NamedIndividual ,
+                                  modelldcatno:Attribute .
+
+
+###  http://example.com/kart#stromElectr
+ex-kart:stromElectr rdf:type owl:NamedIndividual ,
+                             modelldcatno:Specialization ;
+                    modelldcatno:hasGeneralConcept ex-kart:ElectricityCable .
 
 
 #################################################################
